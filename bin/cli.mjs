@@ -80,6 +80,8 @@ function buildSchemaspyXml(data) {
     schemaMeta.tables = {
       table: data.tables.map(table => buildTableXml(table))
     };
+  } else {
+    schemaMeta.tables = {};
   }
 
   return create({ encoding: 'UTF-8', version: '1.0' }, { schemaMeta });
