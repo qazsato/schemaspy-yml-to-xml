@@ -225,6 +225,6 @@ function buildColumnForeignKeyXml(foreignKey) {
 
 export { convertYamlToXml };
 
-if (process.argv[1] === new URL(import.meta.url).pathname) {
+if (process.env.NODE_ENV !== 'test' && (import.meta.url === `file://${process.argv[1]}` || process.argv[1].includes('schemaspy-yml-to-xml'))) {
   program.parse();
 }
