@@ -1,6 +1,6 @@
 {
   "name": "schemaspy-yml-to-xml",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "CLI tool to convert YAML schema files to SchemaSpy XML format",
   "type": "module",
   "bin": {
@@ -37,7 +37,11 @@
     "collectCoverageFrom": [
       "bin/**/*.mjs"
     ],
-    "coverageReporters": ["text", "lcov", "html"],
+    "coverageReporters": [
+      "text",
+      "lcov",
+      "html"
+    ],
     "coveragePathIgnorePatterns": [
       "/node_modules/"
     ]
