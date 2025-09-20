@@ -1,0 +1,45 @@
+{
+  "name": "schemaspy-yml-to-xml",
+  "version": "0.0.1",
+  "description": "CLI tool to convert YAML schema files to SchemaSpy XML format",
+  "type": "module",
+  "bin": {
+    "schemaspy-yml-to-xml": "./bin/cli.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qazsato/schemaspy-yml-to-xml.git"
+  },
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/.bin/jest",
+    "test:coverage": "node --experimental-vm-modules node_modules/.bin/jest --coverage"
+  },
+  "keywords": [
+    "schemaspy",
+    "database",
+    "cli",
+    "xml",
+    "yaml"
+  ],
+  "author": "qazsato <qazsato@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^14.0.1",
+    "yaml": "^2.8.1",
+    "xmlbuilder2": "^3.1.1"
+  },
+  "devDependencies": {
+    "jest": "^30.1.3"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {},
+    "collectCoverageFrom": [
+      "bin/**/*.mjs"
+    ],
+    "coverageReporters": ["text", "lcov", "html"],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  }
+}

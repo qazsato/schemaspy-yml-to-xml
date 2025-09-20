@@ -1,0 +1,18 @@
+comments: Simple test database
+
+tables:
+  - name: test_table
+    type: TABLE
+    comments: Test table
+    columns:
+      - name: id
+        type: INTEGER
+        size: 11
+        nullable: false
+        comments: Primary key
+      - name: name
+        type: VARCHAR
+        size: 100
+        nullable: false
+        comments: Name field
+    primaryKey: id

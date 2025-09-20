@@ -1,0 +1,207 @@
+comments: |
+  Complete SchemaSpy documentation patterns test
+  Multi-line database comment
+
+tables:
+  # Basic table with comments
+  - name: ACCOUNT
+    comments: |
+      Account table with multi-line comments
+      Used for managing user accounts
+    columns:
+      - name: accountId
+        type: INT
+        primaryKey: true
+        comments: Primary key for account table
+      - name: accountName
+        type: VARCHAR
+        size: 100
+        nullable: false
+        comments: Account display name
+      - name: email
+        type: VARCHAR
+        size: 255
+        nullable: false
+        comments: User email address
+      - name: status
+        type: VARCHAR
+        size: 20
+        defaultValue: 'ACTIVE'
+        comments: Account status
+      - name: createdAt
+        type: TIMESTAMP
+        autoUpdated: true
+        defaultValue: 'CURRENT_TIMESTAMP'
+        comments: Record creation timestamp
+
+  # Remote table example
+  - name: CONTRACT
+    remoteCatalog: other
+    remoteSchema: other
+    comments: Remote table from another catalog/schema
+    columns:
+      - name: contractId
+        type: INT
+        primaryKey: true
+        autoUpdated: true
+        comments: Contract identifier
+
+  # Table with column-level foreign keys
+  - name: AGENT
+    comments: Agent table with column-level foreign key relationships
+    columns:
+      - name: id
+        type: INT
+        primaryKey: true
+        comments: Agent unique identifier
+      - name: acId
+        type: INT
+        comments: Reference to ACCOUNT table
+        foreignKey:
+          table: ACCOUNT
+          column: accountId
+      - name: contractId
+        type: INT
+        comments: Reference to CONTRACT table
+        foreignKey:
+          table: CONTRACT
+          column: contractId
+          type: fk
+          deleteRule: CASCADE
+          updateRule: RESTRICT
+
+  # Table with relationship control features
+  - name: ORDERS
+    comments: Orders table with relationship controls
+    columns:
+      - name: orderId
+        type: INT
+        primaryKey: true
+        comments: Order identifier
+      - name: accountId
+        type: INT
+        comments: Account reference with disabled implied keys
+        disableImpliedKeys: all
+      - name: countryId
+        type: INT
+        comments: Country reference with disabled diagram associations
+        disableDiagramAssociations: all
+      - name: regionId
+        type: INT
+        comments: Region reference with specific association control
+        disableDiagramAssociations: exceptDirect
+      - name: statusCode
+        type: VARCHAR
+        size: 10
+        nullable: false
+        defaultValue: 'PENDING'
+        comments: Order status
+
+  # Table with indexes and table-level foreign keys
+  - name: POSTS
+    comments: Posts table with indexes and foreign keys
+    columns:
+      - name: id
+        type: INT
+        primaryKey: true
+        comments: Post identifier
+      - name: userId
+        type: INT
+        nullable: false
+        comments: Author reference
+      - name: title
+        type: VARCHAR
+        size: 255
+        nullable: false
+        comments: Post title
+      - name: content
+        type: TEXT
+        comments: Post content
+      - name: published
+        type: BOOLEAN
+        defaultValue: false
+        comments: Publication status
+      - name: createdAt
+        type: TIMESTAMP
+        defaultValue: 'CURRENT_TIMESTAMP'
+        comments: Creation timestamp
+      - name: updatedAt
+        type: TIMESTAMP
+        autoUpdated: true
+        comments: Last update timestamp
+    indexes:
+      - name: idx_user_posts
+        unique: false
+        columns:
+          - userId
+          - createdAt
+      - name: idx_title
+        unique: false
+        columns:
+          - name: title
+            ascending: true
+      - name: idx_published_created
+        unique: false
+        columns:
+          - name: published
+            ascending: true
+          - name: createdAt
+            ascending: false
+    foreignKeys:
+      - name: fk_posts_user
+        column: userId
+        referencesTable: ACCOUNT
+        referencesColumn: accountId
+        type: fk
+        deleteRule: CASCADE
+        updateRule: RESTRICT
+
+  # Table with all column attribute variations
+  - name: COMPLEX_COLUMNS
+    comments: Table demonstrating all possible column attributes
+    columns:
+      - name: id
+        type: BIGINT
+        primaryKey: true
+        autoUpdated: false
+        nullable: false
+        comments: Primary key with explicit attributes
+      - name: data
+        type: VARCHAR
+        size: 1000
+        nullable: true
+        comments: Nullable data field
+      - name: counter
+        type: INT
+        size: 10
+        nullable: false
+        defaultValue: 0
+        comments: Counter with default value
+      - name: flag
+        type: BOOLEAN
+        nullable: false
+        defaultValue: true
+        comments: Boolean flag with default
+      - name: externalRef
+        type: INT
+        comments: External reference with all FK attributes
+        foreignKey:
+          table: ACCOUNT
+          column: accountId
+          type: fk
+          deleteRule: SET_NULL
+          updateRule: NO_ACTION
+      - name: metadata
+        type: JSON
+        nullable: true
+        comments: JSON metadata field
+
+  # Table with empty collections to test edge cases
+  - name: MINIMAL_TABLE
+    comments: Minimal table for testing edge cases
+    columns:
+      - name: id
+        type: INT
+        primaryKey: true
+    indexes: []
+    foreignKeys: []
