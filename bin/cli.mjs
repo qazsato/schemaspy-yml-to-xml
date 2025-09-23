@@ -72,7 +72,7 @@ function buildSchemaspyXml(data) {
   };
 
   if (data.comments) {
-    schemaMeta.comments = data.comments;
+    schemaMeta.comments = convertNewlinesToBr(data.comments);
   }
 
   if (data.tables) {
@@ -93,7 +93,7 @@ function buildTableXml(table) {
   };
 
   if (table.comments) {
-    tableXml['@comments'] = table.comments;
+    tableXml['@comments'] = convertNewlinesToBr(table.comments);
   }
 
   // Remote table attributes
@@ -132,7 +132,7 @@ function buildColumnXml(column) {
   };
 
   if (column.comments) {
-    columnXml['@comments'] = column.comments;
+    columnXml['@comments'] = convertNewlinesToBr(column.comments);
   }
 
   if (column.type) {
@@ -223,6 +223,13 @@ function buildColumnForeignKeyXml(foreignKey) {
   }
 
   return fkXml;
+}
+
+function convertNewlinesToBr(text) {
+  if (typeof text !== 'string') {
+    return text;
+  }
+  return text.replace(/\n/g, '<br />');
 }
 
 export { convertYamlToXml };
