@@ -171,15 +171,15 @@ describe('Core Converter Functionality', () => {
       const xmlContent = fs.readFileSync(outputFile, 'utf8');
 
       // Schema-level multiline comments - newlines converted to <br /> tags (XML-escaped)
-      expect(xmlContent).toContain('<comments>これは複数行の&lt;br&gt;コメントのテストです&lt;br&gt;改行が含まれています&lt;br&gt;</comments>');
+      expect(xmlContent).toContain('<comments>これは複数行の&lt;br /&gt;コメントのテストです&lt;br /&gt;改行が含まれています&lt;br /&gt;</comments>');
 
       // Table-level multiline comments - newlines converted to <br /> tags in attributes (XML-escaped)
-      expect(xmlContent).toContain('<table name="users" comments="ユーザー情報を格納するテーブル&lt;br&gt;作成日: 2023-01-01&lt;br&gt;更新日: 2023-12-31&lt;br&gt;"');
+      expect(xmlContent).toContain('<table name="users" comments="ユーザー情報を格納するテーブル&lt;br /&gt;作成日: 2023-01-01&lt;br /&gt;更新日: 2023-12-31&lt;br /&gt;"');
 
       // Column-level multiline comments - newlines converted to <br /> tags in attributes (XML-escaped)
-      expect(xmlContent).toContain('comments="ユーザーID&lt;br&gt;自動採番される主キー&lt;br&gt;"');
-      expect(xmlContent).toContain('comments="メールアドレス&lt;br&gt;ユニーク制約あり&lt;br&gt;"');
-      expect(xmlContent).toContain('comments="ユーザーの説明&lt;br&gt;複数行での説明が可能&lt;br&gt;HTMLタグは使用不可&lt;br&gt;"');
+      expect(xmlContent).toContain('comments="ユーザーID&lt;br /&gt;自動採番される主キー&lt;br /&gt;"');
+      expect(xmlContent).toContain('comments="メールアドレス&lt;br /&gt;ユニーク制約あり&lt;br /&gt;"');
+      expect(xmlContent).toContain('comments="ユーザーの説明&lt;br /&gt;複数行での説明が可能&lt;br /&gt;HTMLタグは使用不可&lt;br /&gt;"');
     });
 
     test('should handle schema without tables', () => {
