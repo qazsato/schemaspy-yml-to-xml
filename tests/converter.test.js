@@ -162,6 +162,26 @@ describe('Core Converter Functionality', () => {
       expect(xmlContent).toContain('<column name="name" comments="Name field" type="VARCHAR" size="100" nullable="false"/>');
     });
 
+    test('should handle multiline comments in schema, tables, and columns', () => {
+      const inputFile = path.join(__dirname, '__fixtures__', 'multiline-comments-schema.yml');
+      const outputFile = path.join(tempDir, 'multiline-comments-test.xml');
+
+      convertYamlToXml(inputFile, outputFile);
+
+      const xmlContent = fs.readFileSync(outputFile, 'utf8');
+
+      // Schema-level multiline comments - newlines converted to <br /> tags (XML-escaped)
+      expect(xmlContent).toContain('<comments>これは複数行の&lt;br /&gt;コメントのテストです&lt;br /&gt;改行が含まれています&lt;br /&gt;</comments>');
+
+      // Table-level multiline comments - newlines converted to <br /> tags in attributes (XML-escaped)
+      expect(xmlContent).toContain('<table name="users" comments="ユーザー情報を格納するテーブル&lt;br /&gt;作成日: 2023-01-01&lt;br /&gt;更新日: 2023-12-31&lt;br /&gt;"');
+
+      // Column-level multiline comments - newlines converted to <br /> tags in attributes (XML-escaped)
+      expect(xmlContent).toContain('comments="ユーザーID&lt;br /&gt;自動採番される主キー&lt;br /&gt;"');
+      expect(xmlContent).toContain('comments="メールアドレス&lt;br /&gt;ユニーク制約あり&lt;br /&gt;"');
+      expect(xmlContent).toContain('comments="ユーザーの説明&lt;br /&gt;複数行での説明が可能&lt;br /&gt;HTMLタグは使用不可&lt;br /&gt;"');
+    });
+
     test('should handle schema without tables', () => {
       const minimalSchema = path.join(tempDir, 'minimal.yml');
       fs.writeFileSync(minimalSchema, 'comments: Minimal schema');
